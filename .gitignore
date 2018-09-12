@@ -1,1 +1,11 @@
 
+default.aspx
+Web.config
+Global.asax
+App_Browsers/
+App_Plugins/
+bin/
+Config/
+Umbraco/
+Umbraco_Client/
+Views/
