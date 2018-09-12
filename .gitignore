@@ -9,3 +9,7 @@ Config/
 Umbraco/
 Umbraco_Client/
 Views/
+App_Data/
+css/
+Media/
+scripts/
