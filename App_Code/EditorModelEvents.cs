@@ -22,8 +22,11 @@ public class EditorModelEvents : ApplicationEventHandler
         ChangeTabNames(contentItemDisplay);
 
         HideTabs(contentItemDisplay);
+
+        HideProperties(contentItemDisplay);
     }
 
+    
 
     private void ChangeTabNames(ContentItemDisplay contentItemDisplay)
     {
@@ -51,9 +54,27 @@ public class EditorModelEvents : ApplicationEventHandler
     {
         var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
 
-        if (usergroups.Exists(x => x.Name == "Writers"))
+        if (usergroups.Exists(x => x.Name == "writer"))
         {
             contentItemDisplay.Tabs = contentItemDisplay.Tabs.Where(x => x.Label != "Navigation & SEO");
+        }
+    }
+
+    private void HideProperties(ContentItemDisplay contentItemDisplay)
+    {
+        var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
+
+        if (contentItemDisplay.ContentTypeAlias == "products" && !usergroups.Exists(x => x.Alias == "admin"))
+        {
+            var shopTab = contentItemDisplay.Tabs.FirstOrDefault(x => x.Label == "Shop");
+
+            if (shopTab != null)
+            {
+                shopTab.Properties = shopTab.Properties.Where(x => x.Alias != "defaultCurrency");
+
+                contentItemDisplay.Tabs.First(x => x.Label == "Shop").Properties = shopTab.Properties;
+            }
+            
         }
     }
 }
