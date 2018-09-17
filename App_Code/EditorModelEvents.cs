@@ -24,9 +24,9 @@ public class EditorModelEvents : ApplicationEventHandler
         HideTabs(contentItemDisplay);
 
         HideProperties(contentItemDisplay);
-    }
 
-    
+        SetDefaultPrice(contentItemDisplay);
+    }    
 
     private void ChangeTabNames(ContentItemDisplay contentItemDisplay)
     {
@@ -75,6 +75,19 @@ public class EditorModelEvents : ApplicationEventHandler
                 contentItemDisplay.Tabs.First(x => x.Label == "Shop").Properties = shopTab.Properties;
             }
             
+        }
+    }
+
+    private void SetDefaultPrice(ContentItemDisplay contentItemDisplay)
+    {
+        if (contentItemDisplay.ContentTypeAlias == "product")
+        {
+            var priceProperty = contentItemDisplay.Properties.FirstOrDefault(f => f.Alias == "price");
+            if (priceProperty != null && (priceProperty.Value == null || string.IsNullOrEmpty(priceProperty.Value.ToString())))
+            {
+                // set default value if the price property is null or empty
+                priceProperty.Value = 100;
+            }
         }
     }
 }
