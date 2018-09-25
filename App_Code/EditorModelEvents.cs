@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 
+using log4net.Util;
+
 using Umbraco.Core;
 using Umbraco.Core.Models.Membership;
 using Umbraco.Web;
@@ -26,8 +28,10 @@ public class EditorModelEvents : ApplicationEventHandler
 
         //HideProperties(contentItemDisplay);
 
+        MakePropertiesReadOnly(contentItemDisplay);
+
         SetDefaultPrice(contentItemDisplay);
-    }    
+    }
 
     private void ChangeTabNames(ContentItemDisplay contentItemDisplay)
     {
@@ -76,6 +80,22 @@ public class EditorModelEvents : ApplicationEventHandler
                 contentItemDisplay.Tabs.First(x => x.Label == "Shop").Properties = shopTab.Properties;
             }
             
+        }
+    }
+
+    private void MakePropertiesReadOnly(ContentItemDisplay contentItemDisplay)
+    {
+        var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
+
+        if (contentItemDisplay.ContentTypeAlias == Products.ModelTypeAlias && !usergroups.Exists(x => x.Alias == "admin"))
+        {
+            var shopTab = contentItemDisplay.Tabs.FirstOrDefault(x => x.Label == "Shop");
+
+            if (shopTab != null)
+            {
+               shopTab.Properties.First(x => x.Alias == "defaultCurrency").View = "readonlyvalue";                
+            }
+
         }
     }
 
