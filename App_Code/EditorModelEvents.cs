@@ -5,6 +5,7 @@ using Umbraco.Core.Models.Membership;
 using Umbraco.Web;
 using Umbraco.Web.Editors;
 using Umbraco.Web.Models.ContentEditing;
+using Umbraco.Web.PublishedContentModels;
 
 public class EditorModelEvents : ApplicationEventHandler
 {
@@ -23,14 +24,14 @@ public class EditorModelEvents : ApplicationEventHandler
 
         HideTabs(contentItemDisplay);
 
-        HideProperties(contentItemDisplay);
+        //HideProperties(contentItemDisplay);
 
         SetDefaultPrice(contentItemDisplay);
     }    
 
     private void ChangeTabNames(ContentItemDisplay contentItemDisplay)
     {
-        var doctypes = new[] { "products", "blog", "people" };
+        var doctypes = new[] { Products.ModelTypeAlias,  Blog.ModelTypeAlias, People.ModelTypeAlias };
 
         if (doctypes.Contains(contentItemDisplay.ContentTypeAlias))
         {
@@ -43,7 +44,7 @@ public class EditorModelEvents : ApplicationEventHandler
 
     private void DisablePreview(ContentItemDisplay contentItemDisplay)
     {
-        if (contentItemDisplay.ContentTypeAlias == "product")
+        if (contentItemDisplay.ContentTypeAlias == Product.ModelTypeAlias)
         {
             contentItemDisplay.AllowPreview = false;
             contentItemDisplay.Urls = new string[0];
@@ -54,7 +55,7 @@ public class EditorModelEvents : ApplicationEventHandler
     {
         var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
 
-        if (usergroups.Exists(x => x.Name == "writer"))
+        if (usergroups.Exists(x => x.Alias == "writer"))
         {
             contentItemDisplay.Tabs = contentItemDisplay.Tabs.Where(x => x.Label != "Navigation & SEO");
         }
@@ -64,7 +65,7 @@ public class EditorModelEvents : ApplicationEventHandler
     {
         var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
 
-        if (contentItemDisplay.ContentTypeAlias == "products" && !usergroups.Exists(x => x.Alias == "admin"))
+        if (contentItemDisplay.ContentTypeAlias == Products.ModelTypeAlias && !usergroups.Exists(x => x.Alias == "admin"))
         {
             var shopTab = contentItemDisplay.Tabs.FirstOrDefault(x => x.Label == "Shop");
 
@@ -80,7 +81,7 @@ public class EditorModelEvents : ApplicationEventHandler
 
     private void SetDefaultPrice(ContentItemDisplay contentItemDisplay)
     {
-        if (contentItemDisplay.ContentTypeAlias == "product")
+        if (contentItemDisplay.ContentTypeAlias == Product.ModelTypeAlias)
         {
             var priceProperty = contentItemDisplay.Properties.FirstOrDefault(f => f.Alias == "price");
             if (priceProperty != null && (priceProperty.Value == null || string.IsNullOrEmpty(priceProperty.Value.ToString())))
