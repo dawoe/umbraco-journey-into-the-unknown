@@ -163,6 +163,15 @@ namespace Umbraco.Web.PublishedContentModels
 		}
 
 		///<summary>
+		/// Is in maintenance mode: check this to put the site in maintenance mode
+		///</summary>
+		[ImplementPropertyType("isInMaintenanceMode")]
+		public bool IsInMaintenanceMode
+		{
+			get { return this.GetPropertyValue<bool>("isInMaintenanceMode"); }
+		}
+
+		///<summary>
 		/// Logo: Optional. If you add a logo it'll be used in the upper left corner instead of the site name. Make sure to use a transparent logo for best results
 		///</summary>
 		[ImplementPropertyType("SiteLogo")]
