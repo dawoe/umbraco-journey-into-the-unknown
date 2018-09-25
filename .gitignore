@@ -27,3 +27,4 @@ start iisexpress.bat
 !Views/
 Views/*
 !Views/HomeClean.cshtml
+!Views/UnderConstruction.cshtml
