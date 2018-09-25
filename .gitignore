@@ -23,3 +23,7 @@ App_Data/*
 bin/*
 !/bin/Umbraco.Web.PublishedContentModels.*
 start iisexpress.bat
+
+!Views/
+Views/*
+!Views/HomeClean.cshtml
