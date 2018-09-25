@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 
 using Umbraco.Core;
 using Umbraco.Web.PublishedContentModels;
@@ -21,9 +22,18 @@ public class ContentPreparedEvents : ApplicationEventHandler
         if (request == null || !request.HasPublishedContent)
             return;
 
+        ChangeHomePageTemplate(request);
+    }
+
+    private static void ChangeHomePageTemplate(PublishedContentRequest request)
+    {
         if (request.PublishedContent.DocumentTypeAlias == Home.ModelTypeAlias)
         {
-            request.TrySetTemplate("HomeClean");
+            if (HttpContext.Current.Request.Browser.IsMobileDevice)
+            {
+                request.TrySetTemplate("HomeClean");
+            }
+           
         }
     }
 }
