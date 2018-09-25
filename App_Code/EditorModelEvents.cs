@@ -59,10 +59,10 @@ public class EditorModelEvents : ApplicationEventHandler
     {
         var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
 
-        if (usergroups.Exists(x => x.Alias == "writer"))
+        if (usergroups.Exists(x => x.Alias == "admin") == false && contentItemDisplay.ContentTypeAlias == Home.ModelTypeAlias)
         {
-            contentItemDisplay.Tabs = contentItemDisplay.Tabs.Where(x => x.Label != "Navigation & SEO");
-        }
+            contentItemDisplay.Tabs = contentItemDisplay.Tabs.Where(x => x.Label != "Maintenance Mode");
+        }       
     }
 
     private void HideProperties(ContentItemDisplay contentItemDisplay)
