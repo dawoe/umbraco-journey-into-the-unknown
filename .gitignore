@@ -28,3 +28,4 @@ start iisexpress.bat
 Views/*
 !Views/HomeClean.cshtml
 !Views/UnderConstruction.cshtml
+!Views/OrderStatus.cshtml
