@@ -2,6 +2,7 @@
 using System.Web;
 
 using Umbraco.Core;
+using Umbraco.Web;
 using Umbraco.Web.PublishedContentModels;
 using Umbraco.Web.Routing;
 
@@ -22,10 +23,28 @@ public class ContentPreparedEvents : ApplicationEventHandler
         if (request == null || !request.HasPublishedContent)
             return;
 
-        ChangeHomePageTemplate(request);
+        //ChangeHomePageTemplate(request);
+
+        //PutSiteUnderConstruction(request);
     }
 
-    private static void ChangeHomePageTemplate(PublishedContentRequest request)
+    private void PutSiteUnderConstruction(PublishedContentRequest request)
+    {
+        var homePage = request.PublishedContent.AncestorOrSelf<Home>();
+
+        if (homePage != null && homePage.IsInMaintenanceMode)
+        {
+            var maitenancePage = homePage.FirstChild<UnderConstruction>();
+
+            if (maitenancePage != null)
+            {
+                request.PublishedContent = maitenancePage;
+                request.TrySetTemplate("UnderConstruction");
+            }
+        }
+    }
+
+    private  void ChangeHomePageTemplate(PublishedContentRequest request)
     {
         if (request.PublishedContent.DocumentTypeAlias == Home.ModelTypeAlias)
         {

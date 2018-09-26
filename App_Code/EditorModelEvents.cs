@@ -20,17 +20,17 @@ public class EditorModelEvents : ApplicationEventHandler
     {
         var contentItemDisplay = e.Model;           
 
-        DisablePreview(contentItemDisplay);
+        //DisablePreview(contentItemDisplay);
 
-        ChangeTabNames(contentItemDisplay);
+        //ChangeTabNames(contentItemDisplay);
 
-        HideTabs(contentItemDisplay);
+        //HideTabs(contentItemDisplay);
 
         //HideProperties(contentItemDisplay);
 
-        MakePropertiesReadOnly(contentItemDisplay);
+        //MakePropertiesReadOnly(contentItemDisplay);
 
-        SetDefaultPrice(contentItemDisplay);
+        //SetDefaultPrice(contentItemDisplay);
     }
 
     private void ChangeTabNames(ContentItemDisplay contentItemDisplay)
