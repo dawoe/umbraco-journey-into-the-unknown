@@ -1,4 +1,4 @@
-﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage<ContentModels.OrderStatus>
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<ContentModels.OrderStatus>
 @using ContentModels = Umbraco.Web.PublishedContentModels;
 @{
     Layout = "Master.cshtml";
@@ -13,15 +13,17 @@
         <div class="col-md-3">
             <nav class="nav-bar nav-bar--list">
                 @Html.Partial("~/Views/Partials/Navigation/SubNavigation.cshtml")
+                
+                @*@(Umbraco.AssignedContentItem.OfType<OrderStatus>().OrderId)*@
             </nav>
         </div>
 
         <div class="col-md-9">
             <article>
                 
-                <h1>Order status for order</h1>
+                <h1>Order status for order @Model.OrderId</h1>
 
-                @Html.GetGridHtml(Model.Content, "bodyText", "bootstrap3-fluid")
+                @Html.GetGridHtml(Model, "bodyText", "bootstrap3-fluid")
             </article>
         </div>
     </div>

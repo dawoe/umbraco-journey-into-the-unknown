@@ -1,5 +1,7 @@
-﻿
-public partial class OrderStatus
+﻿namespace Umbraco.Web.PublishedContentModels
 {
-    public string OrderId { get; set; }
+    public partial class OrderStatus
+    {
+        public string OrderId { get; set; }
+    }
 }
