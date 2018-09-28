@@ -1,0 +1,635 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>A tour of tour</title>
+
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="lib/css/colours-theme.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="lib/css/zenburn.css">
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section class="dark-bg-slide" data-background-image="lib/images/tourguide.jpg" data-background-transition="convex">
+				<h1>A tour of the tour</h1>
+			</section>
+			<section>
+				<h2>Introduction</h2>
+				<ul>
+					<li>Dave Woestenborghs</li>
+					<li>Work at Colours (
+						<a href="http://www.colours.nl">http://colours.nl</a>)</li>
+					<li>Been using Umbraco since 2008</li>
+					<li>Umbraco MVP <del>(2x)</del><ins>3x</ins>, Package award winner, speaker, Core c-trib,...</li>
+				</ul>
+			</section>
+			<section>
+				<h2>What will we cover</h2>
+				<ul>
+					<li class="fragment">Integrated help. What other options</li>
+					<li class="fragment">What are tours ?</li>
+					<li class="fragment">How do we create and edit tours</li>
+					<li class="fragment">How can we customize them</li>
+				</ul>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/Wing_mirror.jpg" data-background-transition="convex">
+				<h1>A look at "intergrated" help options</h1>
+				<aside class="notes">
+					Before we dive into Backoffice Tours, let's have a look back at the options we had before tour
+				</aside>
+			</section>
+			<section>
+				<h2>Property description</h2>
+				<img src="lib/images/property description.png" />
+				<aside class="notes">
+					You can and should enter a property description, explaining what it does.
+				</aside>
+			</section>
+			<section>
+				<h2>Property description</h2>
+				<ul>
+					<li>Out of the box</li>
+					<li>No markup possible</li>
+					<li>Not suited for a long description</li>
+				</ul>
+				<aside class="notes">
+					Sometimes the description is not suited for a help text. eg...managing a e-mail body with tokens that can be replaced at runtime
+				</aside>
+			</section>
+			<section>
+				<h2 class="notransform">uEditor Notes</h2>
+				<img src="lib/images/ueditornotes.png" />
+				<aside class="notes">
+					uEditorNotes tries to solve this issue with a property description not being suited for a help text. It allows for displaying Rich Text to the editor
+				</aside>
+			</section>
+			<section>
+				<h2 class="notransform">uEditor Notes</h2>
+				<ul>
+					<li>Package by Marc Goodson</li>
+					<li>Allows for Rich text</li>
+					<li>But requires a datatype per unique help text</li>
+				</ul>
+				<aside class="notes">
+					Because the text is set on a datatype as prevalue. You need to create one for each unique help text
+				</aside>
+			</section>
+			<section>
+				<h2>Bookshelf</h2>
+				<img src="lib/images/bookshelf.png" />
+
+			</section>
+			<section>
+				<h2>Bookshelf</h2>
+				<ul>
+					<li>Package by Kevin Giszewski</li>
+					<li>Adds a new section to the backoffice</li>
+					<li>Allows for writing help in markdown</li>
+					<li>Feels more like a integrated manual, than help</li>
+				</ul>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/crowdsurfing.jpg" data-background-transition="convex">
+				<h1>Backoffice tours</h1>
+				<p>Step by step Friendliness</p>
+			</section>
+			<section>
+				<h2>What are Backoffice tours</h2>
+				<blockquote>
+					A step by step, integrated and interactive tutorial of a specific task in the backoffice
+				</blockquote>
+			</section>
+			<section>
+				<h2>What are Backoffice tours</h2>
+				<ul>
+					<li class="fragment">Can be found in the help section</li>
+					<li class="fragment">First demo at Codegarden 17</li>
+					<li class="fragment">Introduced in 7.8</li>
+					<li class="fragment">Great editor experience</li>
+					<li class="fragment">Under valued by HQ and community</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Backoffice tours demo</h2>
+				<video data-autoplay controls preload="auto" poster="lib/video/tour-editor-demo.png">
+					<source src="lib/video/tour-demo.mp4" type="video/mp4">
+				</video>
+			</section>
+			<section>
+				<h2>Why so useful</h2>
+				<ul>
+					<li>Integrated</li>
+					<li>Interactive</li>
+					<li>Can be resumed and restarted</li>
+					<li>Customizable</li>
+					<li>Can replace editor training or manuals</li>
+				</ul>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/code.jpg" data-background-transition="convex">
+				<h1>Creating tours</h1>
+			</section>
+			<section>
+				<h2>Creating tours</h2>
+				<ul>
+					<li class="fragment">Tours are stored in a JSON file</li>
+					<li class="fragment">In /Config/BackofficeTours</li>
+					<li class="fragment">In /App_Plugins/&lt;Plugin&gt;/backoffice/tours/</li>
+					<li class="fragment">A tour file contains an array of tour objects</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Tour object</h2>
+				<pre><code class="javascript" data-trim contenteditable>
+						{
+							"name": "Introduction",
+							"alias": "umbIntroIntroduction",
+							"group": "Getting Started",
+							"groupOrder": 100,
+							"allowDisable": true,
+							"culture" : "en-US",
+							"requiredSections": [],
+							"steps": []
+						  }
+											</code></pre>
+			</section>
+			<section>
+				<h2>Tour object - name</h2>
+				<p>The name property is the name of the tour that is shown in the help section</p>
+				<img src="lib/images/tourname.png" />
+			</section>
+			<section>
+				<h2>Tour object - alias</h2>
+				<p>The unique alias of the tour. Should be unique across all tours. Not only the ones in the current file</p>
+			</section>
+
+			<section>
+				<h2>Tour object - group</h2>
+				<p>The group property is used to related tours covering a similar topic</p>
+				<img src="lib/images/tourgroup.png" />
+			</section>
+
+			<section>
+				<h2>Tour object - groupOrder</h2>
+				<p>The groupOrder property is used to control the order of groups</p>
+			</section>
+
+			<section>
+				<h2>Tour object - allowDisable</h2>
+				<p>Setting the allowDisable property to true will show a "Don't show this tour again" link</p>
+				<img src="lib/images/tourallowdisable.png" height="400" />
+			</section>
+
+			<section>
+				<h2>Tour object - culture</h2>
+				<p>Set this to display the tour only for a specific culture, so you can create multilanguage tours (v7.11+)</p>
+			</section>
+
+			<section>
+				<h2>Tour object - requiredSections</h2>
+				<p>An array of section aliases. The user will need access to all these sections otherwise the tour will not be shown to the user</p>
+			</section>
+
+			<section>
+				<h2>Tour object - steps</h2>
+				<p>An array of step objects (JSON). Here you will list all the steps that are shown in the tour</p>
+			</section>
+
+			<section>
+				<h2>Step object</h2>
+				<pre><code class="javascript" data-trim contenteditable>
+					{
+						"title": "Welcome to Umbraco - The Friendly CMS",
+						"content": "&lt;p&gt;This content&lt;/p&gt;",
+						"type": "intro",
+						"element": null,
+						"elementPreventClick": false,
+						"backdropOpacity": null,
+						"event": null,
+						"view": null,
+						"eventElement": null,
+						"customProperties": null
+					  }
+											</code></pre>
+			</section>
+			<section>
+				<h2>Step object - title</h2>
+				<p>The title of the step</p>
+				<img src="lib/images/steptitle.png"  />
+			</section>
+			<section>
+				<h2>Step object - content</h2>
+				<p>The content of the step, can contain markup</p>
+				<img src="lib/images/stepcontent.png"  />
+			</section>
+			<section>
+				<h2>Step object - type</h2>
+				<p>Currently only one type is supported : "intro". This will center the step and show a "Start tour" button</p>
+				<img src="lib/images/introstep.png" />
+			</section>
+			<section>
+				<h2>Step object - element</h2>
+				<p>A CSS selector for the element you wish to highlight. The tour step will position it self near the element</p>
+				<p>Use your dev tools from the browser to find the id, class, data-attribute...</p>
+			</section>
+			<section>
+				<h2>Step object - element</h2>
+				<img src="lib/images/element.png" height="400" />
+			</section>
+			<section>
+				<h2>Step object - elementPreventClick</h2>
+				<p>Setting this to true will prevent that no javacript events are bound to the highlighted element. A  "Next" button will be added</p>
+			</section>
+			<section>
+				<h2>Step object - event</h2>
+				<p>The javascript event that should trigger the next step e.g. click, hover,...</p>
+				<p>If not set a "Next" button will be added</p>
+			</section>
+			<section>
+				<h2>Step object - eventElement</h2>
+				<p>A CSS selector for the element you wish to bind the event to</p>
+				<p>If not set, the selector in the element property will be used</p>
+			</section>
+			<section>
+				<h2>Step object - eventElement</h2>
+				<img src="lib/images/step-event-element.png" height="400" />
+			</section>
+			<section>
+				<h2>Step object - backdropOpacity</h2>
+				<p>A value between 0 and 1 to indicate how dark the background overlay wil be</p>
+			</section>
+			<section>
+				<h2>Step object - view</h2>
+				<p>Here you can enter a path to your own custom angular view that will be used for displaying the step</p>
+				<p>Useful for validation of entered values</p>
+			</section>
+			<section>
+				<h2>Step object - customProperties</h2>
+				<p>A json object that is passed to the scope of a custom view, so you can use this data in your view</p>
+			</section>
+			<section>
+				<h2>But...</h2>
+				<p>manually editing JSON is</p>
+				<ul>
+					<li class="fragment">boring</li>
+					<li class="fragment">prone to errors</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Enter Tour editor</h2>
+				<p>A package that gives you a UI to create and edit tours</p>
+			</section>
+			<section>
+				<h2>Tour editor demo</h2>
+				<video data-autoplay controls preload="auto" poster="lib/video/tour-editor-demo.png">
+					<source src="lib/video/tour-editor-demo.mp4" type="video/mp4">
+				</video>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/customize2.jpg" data-background-transition="convex">
+				<h1>Custom steps</h1>
+			</section>
+			<section>
+				<h2>What is needed for a custom step</h2>
+				<ul>
+					<li class="fragment">A angular view</li>
+					<li class="fragment">A angular controller</li>
+					<li class="fragment">A package manifest file</li>
+					<li class="fragment">Set the view property of the step</li>
+					<li class="fragment">Optionally set customProperties on the step</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Demo - input validation</h2>
+				<video data-autoplay controls preload="auto" poster="lib/video/tour-editor-demo.png">
+					<source src="lib/video/required-field-demo.mp4" type="video/mp4">
+				</video>
+			</section>
+			<section>
+				<h2>Custom step</h2>
+				<pre><code class="javascript" data-trim contenteditable>
+					{
+						"title": "Enter the name of the script",
+						"content": "&lt;p&gt;Enter the name of your script file.
+							Enter &lt;em&gt;&lt;strong&gt;HelloWorld&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;",
+						"type": null,
+						"element": "[data-element='editor-name-field']",
+						"elementPreventClick": false,
+						"backdropOpacity": 0.5,
+						"event": null,
+						"view": "/App_Plugins/CustomSteps/requiredinput.html",
+						"eventElement": null,
+						"customProperties": {
+						  "input": "HelloWorld"
+						}
+					  },
+											</code></pre>
+			</section>
+			<section>
+				<h2>Custom step controller</h2>
+				<pre class="small"><code class="javascript" data-trim contenteditable>
+					(function () {
+						'use strict';
+						function RequiredInputController($scope) {
+							var vm = this;
+							var element = angular.element($scope.model.currentStep.element);
+							vm.inputvalue = $scope.model.currentStep.customProperties.input;
+							vm.error = false;
+							vm.initNextStep = initNextStep;
+							function initNextStep() {
+								if (element.val().toLowerCase() === vm.inputvalue.toLowerCase()) {
+									$scope.model.nextStep();
+								} else {
+									vm.error = true;
+								}
+							}
+						}
+						angular.module('umbraco')
+						.controller('TourDemo.RequiredInputController', RequiredInputController);
+					}());
+											</code></pre>
+			</section>
+			<section>
+				<h2>Custom step view</h2>
+				<pre class="small"><code class="html" data-trim contenteditable>
+&lt;div ng-controller="TourDemo.RequiredInputController as vm"&gt;
+    &lt;umb-tour-step on-close="model.endTour()"&gt;
+        &lt;umb-tour-step-header title="model.currentStep.title"&gt;
+        &lt;/umb-tour-step-header&gt;
+        &lt;umb-tour-step-content content="model.currentStep.content"&gt;
+			&lt;div ng-if="vm.error" class="color-red" style="margin-top: 5px;"&gt;
+				Please enter &lt;b&gt;{{vm.inputvalue}}&lt;/b&gt; in the field
+			&lt;/div&gt;
+        &lt;/umb-tour-step-content&gt;
+        &lt;umb-tour-step-footer class="flex justify-between items-center"&gt;
+            &lt;umb-tour-step-counter current-step="model.currentStepIndex + 1"
+                                   total-steps="model.steps.length"&gt;
+            &lt;/umb-tour-step-counter&gt;
+            &lt;div&gt;
+				&lt;umb-button size="xs" button-style="success" type="button"
+					 action="vm.initNextStep()" label="Next"&gt;&lt;/umb-button&gt;
+            &lt;/div&gt;
+        &lt;/umb-tour-step-footer&gt;
+    &lt;/umb-tour-step&gt;
+&lt;/div&gt;
+											</code></pre>
+			</section>
+			<section>
+				<h2>Custom step package manifest</h2>
+				<pre><code class="javascript" data-trim contenteditable>
+					{
+						"javascript": [
+						  "~/App_Plugins/CustomSteps/requiredinput-controller.js",
+						]
+					}
+											</code></pre>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/dashboard.jpg" data-background-transition="convex">
+				<h1>Starting tours from outside the help drawer</h1>
+			</section>
+			<section>
+				<h2>Demo - start from dashboard</h2>
+				<video data-autoplay controls preload="auto" poster="lib/video/tour-editor-demo.png">
+					<source src="lib/video/dash-board-demo.mp4" type="video/mp4">
+				</video>
+			</section>
+			<section>
+				<h2>How ?</h2>
+				<ul>
+					<li class="fragment">Inject the tourService in your controller</li>
+					<li class="fragment">Use the tourService to get the tour by alias</li>
+					<li class="fragment">Use the tourService to start the tour</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Dashboard controller</h2>
+				<pre class="small"><code class="javascript" data-trim contenteditable>
+					(function () {
+						"use strict";
+
+						function ChangePasswordController($scope, tourService) {
+							var vm = this;
+
+							function startHelp() {
+								tourService.getTourByAlias('howToChangeMyPassword').then(function(tour) {
+									tourService.startTour(tour);
+								});
+							};
+
+							vm.startHelp = startHelp;
+						}
+
+						angular.module("umbraco").controller("TourDemo.HelpDashBoard.ChangePasswordController",
+							[
+								"$scope",
+								"tourService",
+								ChangePasswordController
+							]);
+
+					})();
+											</code></pre>
+			</section>
+			<section>
+				<h2>Dashboard view</h2>
+				<pre class="small"><code class="html" data-trim contenteditable>
+&lt;div ng-controller="TourDemo.HelpDashBoard.ChangePasswordController as vm"&gt;
+    &lt;umb-box&gt;
+        &lt;umb-box-header
+            title="How do I change my password"&gt;&lt;/umb-box-header&gt;
+
+        &lt;umb-box-content&gt;
+            &lt;umb-button action="vm.startHelp()"
+                        type="button"
+                        button-style="success"
+                        label="Show me"
+                        icon="icon-user"
+                       &gt;
+            &lt;/umb-button&gt;
+        &lt;/umb-box-content&gt;
+    &lt;/umb-box&gt;
+&lt;/div&gt;
+											</code></pre>
+			</section>
+			<section>
+				<h2>Starting tours without a tour file</h2>
+				<ul>
+					<li class="fragment">By passing in a tour JSON object in to the tourService startTour method</li>
+					<li class="fragment">Useful for tours that should not be shown in the help drawer</li>
+					<li class="fragment">eg...from dashboard show the user where to find help</li>
+					<li class="fragment">eg...starting tour from a content page</li>
+				</ul>
+				<p></p>
+			</section>
+			<section>
+				<h2>No tour file example</h2>
+				<pre class="small"><code class="javascript" data-trim contenteditable>
+					(function () {
+						"use strict";
+
+						function ChangePasswordController($scope, tourService) {
+							var vm = this;
+
+							var tour = {}; // a valid tour object
+
+							function startHelp() {
+								tourService.startTour(tour);
+							};
+
+							vm.startHelp = startHelp;
+						}
+
+						angular.module("umbraco").controller("TourDemo.HelpDashBoard.ChangePasswordController",
+							[
+								"$scope",
+								"tourService",
+								ChangePasswordController
+							]);
+
+					})();
+											</code></pre>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/hide.jpg" data-background-transition="convex">
+				<h1>Hiding tours</h1>
+			</section>
+			<section>
+				<h2>Disabling tours</h2>
+				<ul>
+					<li>Can be disabled in umbracoSettings.config</li>
+					<li class="fragment">But why in earth should you want do that??</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Disabling tours</h2>
+				<pre><code class="xml" data-trim contenteditable>
+&lt;settings&gt;
+    &lt;backOffice&gt;
+        &lt;tours enable="false"&gt;&lt;/tours&gt;
+    &lt;/backOffice&gt;
+&lt;/settings&gt;
+											</code></pre>
+			</section>
+			<section>
+				<h2>Filtering tours</h2>
+				<p>Using TourResolver.Current we can filter on</p>
+				<ul>
+					<li>Filename : TourResolver.Current.AddFilterByFile</li>
+					<li>Pluginname : TourResolver.Current.AddFilterByPlugin</li>
+					<li>Tour alias : TourResolver.Current.AddFilterByAlias</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Filter tours - example</h2>
+				<pre class="small"><code class="csharp" data-trim contenteditable>
+using Umbraco.Core;
+using Umbraco.Core.Events;
+using Umbraco.Web;
+
+public class Events : ApplicationEventHandler
+{
+	protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication,
+		ApplicationContext applicationContext)
+    {
+		TourFilterResolver.Current.AddFilterByFile("getting-started");
+    }
+}
+																	</code></pre>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/roadahead.jpg" data-background-transition="convex">
+				<h1>What's next ?</h1>
+			</section>
+			<section>
+				<h2>What's next</h2>
+				<ul>
+					<li class="fragment">Write better documentation</li>
+					<li class="fragment">Suggest new features</li>
+					<li class="fragment">Maybe integrate tour editor in core</li>
+				</ul>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/questions.jpg" data-background-transition="convex">
+				<h1>Questions ?</h1>
+			</section>
+			<section>
+				<h2>Useful links - Packages</h2>
+				<ul>
+					<li>
+						<a href="https://our.umbraco.org/projects/backoffice-extensions/ueditornotes/">uEditorNotes</a>
+					</li>
+					<li>
+						<a href="https://our.umbraco.org/projects/backoffice-extensions/bookshelf/">Bookshelf</a>
+					</li>
+					<li>
+						<a href="https://our.umbraco.org/projects/backoffice-extensions/tour-editor/">Tour Editor</a>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Useful links - Documentation</h2>
+				<ul>
+					<li>
+						<a href="https://our.umbraco.org/documentation/Extending/Backoffice-Tours/">Backoffice tours documentation</a>
+					</li>
+					<li>
+						<a href="https://our.umbraco.org/apidocs/ui/#/api/umbraco.directives.directive:umbTour">umbTour directive</a>
+					</li>
+					<li>
+						<a href="https://our.umbraco.org/apidocs/ui/#/api/umbraco.services.tourService">Tour service</a>
+					</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Useful links - Presentation</h2>
+				<p>
+				<a href="https://github.com/dawoe/umbraco-a-tour-of-the-tour">https://github.com/dawoe/umbraco-a-tour-of-the-tour</a>
+			</p>
+			</section>
+		</div>
+	</div>
+
+	<div id="colourslogo">
+		<a href="http://www.colours.nl">
+			<svg class="c-logo__image">
+				<use xlink:href="lib/images/svg.svg#logo-colours"></use>
+			</svg>
+		</a>
+	</div>
+
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+			transition: 'slide', // none/fade/slide/convex/concave/zoom,
+			showNotes: false,
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+				{ src: 'plugin/zoom-js/zoom.js', async: true },
+			]
+		});
+	</script>
+</body>
+
+</html>
