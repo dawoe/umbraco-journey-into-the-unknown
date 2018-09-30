@@ -18,17 +18,18 @@ public class EditorModelEvents : ApplicationEventHandler
 
     private void EditorModelEventManager_SendingContentModel(System.Web.Http.Filters.HttpActionExecutedContext sender, EditorModelEventArgs<Umbraco.Web.Models.ContentEditing.ContentItemDisplay> e)
     {
-        var contentItemDisplay = e.Model;           
+        var contentItemDisplay = e.Model;
+        var context = e.UmbracoContext;
 
         //DisablePreview(contentItemDisplay);
 
         //ChangeTabNames(contentItemDisplay);
 
-        //HideTabs(contentItemDisplay);
+        //HideTabs(contentItemDisplay, context);
 
-        //HideProperties(contentItemDisplay);
+        //HideProperties(contentItemDisplay, context);
 
-        //MakePropertiesReadOnly(contentItemDisplay);
+        //MakePropertiesReadOnly(contentItemDisplay, context);
 
         //SetDefaultPrice(contentItemDisplay);
     }
@@ -55,9 +56,9 @@ public class EditorModelEvents : ApplicationEventHandler
         }
     }
 
-    private void HideTabs(ContentItemDisplay contentItemDisplay)
+    private void HideTabs(ContentItemDisplay contentItemDisplay, UmbracoContext context)
     {
-        var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
+        var usergroups = context.Security.CurrentUser.Groups.ToList();
 
         if (usergroups.Exists(x => x.Alias == "admin") == false && contentItemDisplay.ContentTypeAlias == Home.ModelTypeAlias)
         {
@@ -65,9 +66,9 @@ public class EditorModelEvents : ApplicationEventHandler
         }       
     }
 
-    private void HideProperties(ContentItemDisplay contentItemDisplay)
+    private void HideProperties(ContentItemDisplay contentItemDisplay, UmbracoContext context)
     {
-        var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
+        var usergroups = context.Security.CurrentUser.Groups.ToList();
 
         if (contentItemDisplay.ContentTypeAlias == Products.ModelTypeAlias && !usergroups.Exists(x => x.Alias == "admin"))
         {
@@ -83,9 +84,9 @@ public class EditorModelEvents : ApplicationEventHandler
         }
     }
 
-    private void MakePropertiesReadOnly(ContentItemDisplay contentItemDisplay)
+    private void MakePropertiesReadOnly(ContentItemDisplay contentItemDisplay, UmbracoContext context)
     {
-        var usergroups = UmbracoContext.Current.Security.CurrentUser.Groups.ToList();
+        var usergroups = context.Security.CurrentUser.Groups.ToList();
 
         if (contentItemDisplay.ContentTypeAlias == Products.ModelTypeAlias && !usergroups.Exists(x => x.Alias == "admin"))
         {
