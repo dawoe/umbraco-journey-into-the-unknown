@@ -49,26 +49,60 @@
 			</section>
 			<section>
 				<h2>Disclaimer (2/2)</h2>
-				<p>There probably will be some swearing</p>
-				<p class="fragment">... because of demo fails</p>
+				<p>There maybe be some swearing</p>
+				<p class="fragment">... because of demo failures</p>
 			</section>
 			<section>
 				<h2>What will we cover</h2>
 				<ul>
-					<li class="fragment">Tweaking content editing (no angular)</li>
+					<li class="fragment">Tweaking content editing experience</li>
 					<li class="fragment">Hooking into to the request pipeline</li>
 					<li class="fragment">Usefull tips for package developers</li>
 				</ul>
 			</section>
 			<section class="dark-bg-slide" data-background-image="lib/images/tweaking.jpg" data-background-transition="convex">
-				<h1>Tweaking content editing</h1>
+				<h1>Tweaking content editing experience</h1>
 			</section>
 			<section>
-				<h2>Property description</h2>
-				<img src="lib/images/property description.png" />
-				<aside class="notes">
-					You can and should enter a property description, explaining what it does.
-				</aside>
+				<h2>EditorModelEventManager Events</h2>
+				<p>The EditorModelEventManager class is used to emit events that enable you to manipulate the model used by the backoffice before it is loaded into an editor </p>
+			</section>
+			<section>
+				<h2>EditorModelEventManager Events</h2>
+				<p>Introduced in Umbraco 7.4 (January 2016)</p>
+				<p>Documented in November 2017</p>
+			</section>		
+			<section>
+				<h2>EditorModelEventManager Events</h2>
+				<p>You can subscribe to following events </p>
+				<ul>
+					<li>SendingContentModel</li>
+					<li>SendingMediaModel</li>
+					<li>SendingMemberModel</li>
+					<li>SendingUserModel</li>
+				</ul>
+			</section>
+			<section>
+				<h2>EditorModelEventManager Events</h2>
+				<pre class="small"><code class="csharp" data-trim contenteditable>
+					public class MyEventHandler : ApplicationEventHandler
+					{
+						protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, 
+							ApplicationContext applicationContext)
+						{
+							EditorModelEventManager.SendingContentModel += 
+								EditorModelEventManager_SendingContentModel;   
+						}            
+
+						private void EditorModelEventManager_SendingContentModel(
+							System.Web.Http.Filters.HttpActionExecutedContext sender, 
+							EditorModelEventArgs&lt;Umbraco.Web.Models.ContentEditing.ContentItemDisplay&gt; e)
+						{
+							var contentItemDisplay = e.Model;
+							var context = e.UmbracoContext;            							
+						}
+					}
+											</code></pre>
 			</section>
 			
 			<!-- <section>
