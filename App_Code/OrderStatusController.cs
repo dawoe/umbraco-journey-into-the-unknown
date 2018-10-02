@@ -7,12 +7,8 @@ using Umbraco.Web.PublishedContentModels;
 
 public class OrderStatusController : RenderMvcController
 {
-    public ActionResult OrderStatus(RenderModel model, string orderId)
+    public ActionResult OrderStatus(RenderModel model)
     {
-        var content = model.Content.OfType<OrderStatus>();
-
-        content.OrderId = orderId;
-
-        return this.View("OrderStatus", model: content);
+      return this.View("OrderStatus", model: model);
     }
 }

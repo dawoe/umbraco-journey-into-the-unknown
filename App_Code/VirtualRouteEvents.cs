@@ -17,17 +17,11 @@ public class VirtualRouteEvents : ApplicationEventHandler
     
     protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
     {
-        var orderStatusPage =
-            UmbracoContext.Current.ContentCache.GetSingleByXPath(string.Format("//{0}[@isDoc]", OrderStatus.ModelTypeAlias)).OfType<OrderStatus>();
-
-        if (orderStatusPage != null)
-        {
-            RouteTable.Routes.MapUmbracoRoute(
-                "order_status",
-                this.GetRoutePathFromNodeUrl(orderStatusPage.Url).EnsureEndsWith("/") + "{orderId}",
-                new { controller = "OrderStatus", action = "OrderStatus" },
-                new UmbracoVirtualNodeByIdRouteHandler(orderStatusPage.Id));
-        }
+        RouteTable.Routes.MapUmbracoRoute(
+            "order_status",
+            "orderstatus/{orderId}",
+            new { controller = "OrderStatus", action = "OrderStatus" },
+            new OrderStatusRouteHandler());       
     }
 
     private  string GetRoutePathFromNodeUrl(string routePath)
