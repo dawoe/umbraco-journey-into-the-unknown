@@ -34,7 +34,7 @@
 				<ul>
 					<li>Dave Woestenborghs</li>
 					<li>Work at Colours (
-						<a href="http://www.colours.nl">http://colours.nl</a>)</li>
+						<a href="http://www.colours.nl" target="_blank" rel="noreferrer">http://colours.nl</a>)</li>
 					<li>Umbraco MVP (3x)</li>
 					<li>Award winning package developer</li>
 					<li>Member of the Umbraco CPR team</li>
@@ -43,9 +43,8 @@
 				</ul>
 			</section>
 			<section>
-				<h2>Disclaimer (1/2)</h2>
-				<p>I will probably point at the screen</p>
-				<img src="/lib/images/daveception.png" width="400" />
+				<h2>Disclaimer (1/2)</h2>				
+				<img class="fragment" src="/lib/images/daveception.png" width="400" />
 			</section>
 			<section>
 				<h2>Disclaimer (2/2)</h2>
@@ -56,30 +55,36 @@
 				<h2>What will we cover</h2>
 				<ul>
 					<li class="fragment">Tweaking content editing experience</li>
-					<li class="fragment">Hooking into to the request pipeline</li>
+					<li class="fragment">Hooking into the request pipeline</li>
 					<li class="fragment">Usefull tips for package developers</li>
 				</ul>
 			</section>
-			<section class="dark-bg-slide" data-background-image="lib/images/optimize.jpg"  data-background-transition="convex">
+			<section class="dark-bg-slide" data-background-image="lib/images/code.jpg"  data-background-transition="convex">
 				<h1>Tweaking content editing experience</h1>
 			</section>
 			<section>
-				<h2>EditorModelEventManager Events</h2>
-				<p>The EditorModelEventManager class is used to emit events that enable you to manipulate the model used by the backoffice before it is loaded into an editor </p>
+				<h2>Often Hacky-ish solutions</h2>
+				<ul>
+					<li>Angular interceptors, ...</li>
+					<li>C# DelegatingHandler</li>
+				</ul>
 			</section>
 			<section>
-				<h2>EditorModelEventManager Events</h2>
+				<h2>EditorModelEventManager</h2>
+				<p>The EditorModelEventManager class is used to emit events that enable you to manipulate the model used by the backoffice before it is loaded into the editor </p>
+			</section>
+			<section>
+				<h2>EditorModelEventManager</h2>
 				<p>Introduced in Umbraco 7.4 (January 2016)</p>
 				<p>Documented in November 2017</p>
 			</section>		
 			<section>
-				<h2>EditorModelEventManager Events</h2>
-				<p>You can subscribe to following events </p>
+				<h2>EditorModelEventManager Events</h2>				
 				<ul>
 					<li>SendingContentModel</li>
 					<li>SendingMediaModel</li>
 					<li>SendingMemberModel</li>
-					<li>SendingUserModel</li>
+					<li>SendingUserModel (v7.7.10)</li>
 				</ul>
 			</section>
 			
@@ -104,52 +109,83 @@
 						}
 					}
 											</code></pre>
+			</section>		
+			<section>
+				<h2>Demo</h2>				
+				<ul class="fragment">
+					<li>Disable previewing</li>
+					<li>Changing tab names</li>
+					<li>Hiding tabs & properties</li>
+					<li>Changing view of property</li>
+					<li>Set default value</li>
+				</ul>
 			</section>
-			<section class="dark-bg-slide" data-background-image="lib/images/code.jpg" data-background-transition="convex">
-				<h1>Demo time</h1>
+			<section class="dark-bg-slide" data-background-image="lib/images/pipeline.jpg" data-background-transition="convex">
+				<h1>Hooking into the request pipeline</h1>
 			</section>
-			<!-- <section>
-				<h2>Tour object</h2>
-				<pre><code class="javascript" data-trim contenteditable>
+			<section>
+				<h2>Content finders</h2>
+				<p>Probably the most used way to hook in to the incoming pipeline. Often in combination with a UrlProvider</p>
+			</section>
+			<section>
+				<h2>Content finders considerations</h2>				
+				<ul>
+					<li class="fragment">Run on every incoming request that does not match the url of a content item</li>
+					<li class="fragment">Possible performance bottleneck</li>					
+				</ul>
+			</section>
+			<section>
+				<h2>Custom routes</h2>
+				<p>You can specify your own custom MVC routes to work within the Umbraco pipeline. This requires you to use an implementation of <code>Umbraco.Web.Mvc.UmbracoVirtualNodeRouteHandler </code> with your custom route.</p>
+			</section>
+			<section>
+				<h2>UmbracoVirtualNode&shy;RouteHandler</h2>
+				<p>You need to create a implementation of <code>UmbracoVirtualNodeRouteHandler</code> and implemented the <code>FindContent</code> method</p>
+			</section>			
+			
+			<section>
+				<h2>Register the route</h2>
+				<pre class="small"><code class="csharp" data-trim contenteditable>
+					public class VirtualRouteEvents : ApplicationEventHandler
+					{          
+						protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication,
+							 ApplicationContext applicationContext)
 						{
-							"name": "Introduction",
-							"alias": "umbIntroIntroduction",
-							"group": "Getting Started",
-							"groupOrder": 100,
-							"allowDisable": true,
-							"culture" : "en-US",
-							"requiredSections": [],
-							"steps": []
-						  }
+							RouteTable.Routes.MapUmbracoRoute(
+									"order_status",
+									"orderstatus/{orderId}",
+									new { controller = "OrderStatus", action = "OrderStatus" },
+									new OrderStatusRouteHanlder());							
+						}  
+					}
 											</code></pre>
-			</section> -->
+			</section>
+			<section>
+				<h2>Setup a controller for the route</h2>
+				<pre class="small"><code class="csharp" data-trim contenteditable>
+					public class OrderStatusController : RenderMvcController
+					{
+						public ActionResult OrderStatus(RenderModel model, string orderId)
+						{
+							// do something based on order id
 			
-			<!-- <section>
-				<h2>Custom step controller</h2>
-				<pre class="small"><code class="javascript" data-trim contenteditable>
-					(function () {
-						'use strict';
-						function RequiredInputController($scope) {
-							var vm = this;
-							var element = angular.element($scope.model.currentStep.element);
-							vm.inputvalue = $scope.model.currentStep.customProperties.input;
-							vm.error = false;
-							vm.initNextStep = initNextStep;
-							function initNextStep() {
-								if (element.val().toLowerCase() === vm.inputvalue.toLowerCase()) {
-									$scope.model.nextStep();
-								} else {
-									vm.error = true;
-								}
-							}
+							return this.View("OrderStatus", model: content);
 						}
-						angular.module('umbraco')
-						.controller('TourDemo.RequiredInputController', RequiredInputController);
-					}());
+					}
 											</code></pre>
-			</section>-->
-			
-			
+			</section>
+
+			<section>
+				<h2>UmbracoVirtualNodeById&shy;RouteHandler</h2>
+				<p>A route handler where you can set the id of a content item in the constructor and doesn't require you to implement the find content method</p>
+			</section>
+			<section>
+				<h2>Documentation</h2>
+				<ul>
+					<li><a href="https://our.umbraco.com/documentation/Reference/Events/EditorModel-Events"  target="_blank" rel="noreferrer">EditorModel Events</a></li>
+					<li><a href="https://our.umbraco.com/documentation/Reference/Routing/custom-routes" target="_blank" rel="noreferrer">Custom routes</a></li>
+				</ul>
+			</section>
 		</div>
 	</div>
 
