@@ -8,26 +8,26 @@ using Umbraco.Core.Logging;
 using Umbraco.Core.Persistence.Migrations;
 using Umbraco.Core.Persistence.SqlSyntax;
 
-[Migration("2.0.0", 2, "DUUG")]
+//[Migration("2.0.0", 2, "DUUG")]
 
-public class CreateContent : MigrationBase
-{
+//public class CreateContent : MigrationBase
+//{
    
-    public override void Up()
-    {
-        var contentService = ApplicationContext.Current.Services.ContentService;
+//    public override void Up()
+//    {
+//        var contentService = ApplicationContext.Current.Services.ContentService;
 
-        var content = contentService.CreateContent("From Mirgration", 1106, "contentPage", 0);
-        content.SetValue("pageTitle", "Created from migration");
-        contentService.Save(content);
-    }
+//        var content = contentService.CreateContent("From Mirgration", 1106, "contentPage", 0);
+//        content.SetValue("pageTitle", "Created from migration");
+//        contentService.Save(content);
+//    }
 
-    public override void Down()
-    {        
-    }
+//    public override void Down()
+//    {        
+//    }
 
-    public CreateContent(ISqlSyntaxProvider sqlSyntax, ILogger logger)
-        : base(sqlSyntax, logger)
-    {
-    }
-}
+//    public CreateContent(ISqlSyntaxProvider sqlSyntax, ILogger logger)
+//        : base(sqlSyntax, logger)
+//    {
+//    }
+//}
