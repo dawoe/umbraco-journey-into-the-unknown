@@ -37,9 +37,7 @@
 						<a href="http://www.colours.nl" target="_blank" rel="noreferrer">http://colours.nl</a>)</li>
 					<li>Umbraco MVP (3x)</li>
 					<li>Award winning package developer</li>
-					<li>Member of the Umbraco CPR team</li>
-					<li>Core contributor</li>
-					<li>Forum regular</li>
+					<li>Member of the Umbraco CPR team</li>					
 				</ul>
 			</section>
 			<section>
@@ -134,6 +132,9 @@
 					<li class="fragment">Possible performance bottleneck</li>					
 				</ul>
 			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/route.jpg" data-background-transition="convex">
+				<h1>Custom routes</h1>
+			</section>
 			<section>
 				<h2>Custom routes</h2>
 				<p>You can specify your own custom MVC routes to work within the Umbraco pipeline. This requires you to use an implementation of <code>Umbraco.Web.Mvc.UmbracoVirtualNodeRouteHandler </code> with your custom route.</p>
@@ -191,12 +192,15 @@
 					<li class="fragment">Custom routes better for (partially) fixed urls</li>
 					<li class="fragment">Custom routes support Url.Action</li>
 				</ul>
-			</section>			
+			</section>
 			<section>
 				<h2>But ... </h2>
 				<p class="fragment">What if we want to change the content based on something else than url</p>
 				<p class="fragment">eg... a setting in the content or type of browser</p>
-			</section>
+			</section>	
+			<section class="dark-bg-slide" data-background-image="lib/images/checklist.jpg" data-background-transition="convex">
+				<h1>The end of the pipeline</h1>
+			</section>					
 			<section>
 				<h2>PublishedContentRequest<br/>.Prepared event</h2>
 				<p> Triggers once the published content request has been prepared, but before it is processed.</p>
@@ -213,13 +217,57 @@
 						<li>Changing the template for mobile browser</li>
 						<li>Change the content based on content setting</li>
 					</ul>
-				</section>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/packages.png" data-background-transition="convex">
+				<h1>Package developer tips</h1>
+				<h3>(Can be used in projects too)</h3>
+			</section>
+			<section>
+				<h2>Package developer problems</h2>
+				<ul>
+					<li class="fragment">Easy install and upgrades</li>
+					<li class="fragment">Making them extendable</li>
+				</ul>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/plugin.jpg" data-background-transition="convex">
+				<h1>Make your package extendable </h1>				
+			</section>
+			<section>
+				<h2>Plugins</h2>
+				<p>The term 'Plugins' is referring to any types in Umbraco that are found in assemblies that are used to extend and/or enhance the Umbraco application. Plugins can also be added directly registered to their specific 'Resolver' if the plugin type is not public or if the Resolver type doesn't support finding types in assemblies.</p>
+			</section>
+			<section>
+				<h2>Resolvers</h2>
+				<p>A Resolver is an class that returns a plugin object or multiple plugin objects. There are 2 types of Resolvers: A single object resolver and a multiple object resolver.</p>
+			</section>
+			<section>
+				<h2>Resolvers examples</h2>
+				<ul>
+					<li>ContentFinderResolver</li>
+					<li>UrlProviderResolver</li>
+					<li>DefaultRenderMvcControllerResolver</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Demo</h2>
+				<ul class="fragment">
+					<li>Single object resolver for mobile detection</li>
+					<li>ManyObjectResolver in Nexu for parsers</li>
+				</ul>
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/migration.jpg" data-background-transition="convex">
+				<h1>Migrations</h1>				
+			</section>
+			<section class="dark-bg-slide" data-background-image="lib/images/questions.jpg" data-background-transition="convex">
+				<h1>Questions</h1>				
+			</section>
 			<section>
 				<h2>Documentation</h2>
 				<ul>
 					<li><a href="https://our.umbraco.com/documentation/Reference/Events/EditorModel-Events"  target="_blank" rel="noreferrer">EditorModel Events</a></li>
 					<li><a href="https://our.umbraco.com/documentation/Reference/Routing/custom-routes" target="_blank" rel="noreferrer">Custom routes</a></li>
 					<li><a href="https://our.umbraco.com/apidocs/csharp/api/Umbraco.Web.Routing.PublishedContentRequest.html#Umbraco_Web_Routing_PublishedContentRequest_Prepared" target="_blank" rel="noreferrer">PublishedContentRequest.Prepared event</a></li>
+					<li><a href="https://our.umbraco.com/documentation/Reference/Plugins/" target="_blank" rel="noreferrer">Plugins</a></li>
 				</ul>
 			</section>
 		</div>
