@@ -174,16 +174,52 @@
 					}
 											</code></pre>
 			</section>
-
+			<section>
+				<h2>Demo</h2>				
+				<ul class="fragment">
+					<li>Custom routing</li>					
+				</ul>
+			</section>
 			<section>
 				<h2>UmbracoVirtualNodeById&shy;RouteHandler</h2>
 				<p>A route handler where you can set the id of a content item in the constructor and doesn't require you to implement the find content method</p>
 			</section>
 			<section>
+				<h2>Content Finders vs Custom routes</h2>
+				<ul>
+					<li class="fragment">Content finders better for urls depending on content structure</li>
+					<li class="fragment">Custom routes better for (partially) fixed urls</li>
+					<li class="fragment">Custom routes support Url.Action</li>
+				</ul>
+			</section>			
+			<section>
+				<h2>But ... </h2>
+				<p class="fragment">What if we want to change the content based on something else than url</p>
+				<p class="fragment">eg... a setting in the content or type of browser</p>
+			</section>
+			<section>
+				<h2>PublishedContentRequest<br/>.Prepared event</h2>
+				<p> Triggers once the published content request has been prepared, but before it is processed.</p>
+			</section>
+			<section>
+				<h2>PublishedContentRequest<br/>.Prepared event</h2>
+				<p>When the event triggers, preparation is done ie domain, culture, document, template,
+					rendering engine, etc. have been setup. It is then possible to change anything, before
+					the request is actually processed and rendered by Umbraco.</p>
+			</section>
+			<section>
+					<h2>Demo</h2>				
+					<ul class="fragment">
+						<li>Changing the template for mobile browser</li>
+						<li>Change the content based on content setting</li>
+					</ul>
+				</section>
+			<section>
 				<h2>Documentation</h2>
 				<ul>
 					<li><a href="https://our.umbraco.com/documentation/Reference/Events/EditorModel-Events"  target="_blank" rel="noreferrer">EditorModel Events</a></li>
 					<li><a href="https://our.umbraco.com/documentation/Reference/Routing/custom-routes" target="_blank" rel="noreferrer">Custom routes</a></li>
+					<li><a href="https://our.umbraco.com/apidocs/csharp/api/Umbraco.Web.Routing.PublishedContentRequest.html#Umbraco_Web_Routing_PublishedContentRequest_Prepared" target="_blank" rel="noreferrer">PublishedContentRequest.Prepared event</a></li>
 				</ul>
 			</section>
 		</div>
