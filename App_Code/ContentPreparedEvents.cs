@@ -48,7 +48,7 @@ public class ContentPreparedEvents : ApplicationEventHandler
     {
         if (request.PublishedContent.DocumentTypeAlias == Home.ModelTypeAlias)
         {
-            if (HttpContext.Current.Request.Browser.IsMobileDevice)
+            if (MobileDetectorResolver.Current.MobileDetector.IsMobileRequest(HttpContext.Current.Request))
             {
                 request.TrySetTemplate("HomeClean");
             }
