@@ -14,7 +14,7 @@ public class MigrationEvents : ApplicationEventHandler
 {
     protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
     {
-        SemVersion targetVersion = new SemVersion(1, 0, 0, string.Empty, null); ;
+        SemVersion targetVersion = new SemVersion(1, 0, 0); ;
        // RunMigrations(applicationContext, targetVersion);
     }
 
@@ -30,8 +30,7 @@ public class MigrationEvents : ApplicationEventHandler
         {
             currentVersion = latestMigration.Version;
         }
-
-        targetVersion = new SemVersion(2, 0, 0, string.Empty, null);
+     
 
         if (targetVersion == currentVersion)
         {
