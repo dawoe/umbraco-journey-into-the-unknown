@@ -42,7 +42,7 @@
 			</section>
 			<section>
 				<h2>Disclaimer (1/2)</h2>				
-				<img class="fragment" src="/lib/images/daveception.png" width="400" />
+				<img class="fragment" src="lib/images/daveception.png" width="400" />
 			</section>
 			<section>
 				<h2>Disclaimer (2/2)</h2>
@@ -258,6 +258,67 @@
 			<section class="dark-bg-slide" data-background-image="lib/images/migration.jpg" data-background-transition="convex">
 				<h1>Migrations</h1>				
 			</section>
+			<section>
+				<h2>Package developer problems</h2>
+				<p>Setup on installation/upgrades</p>
+				<ul>					
+					<li class="fragment">Use package actions</li>					
+					<li class="fragment">Run code on startup</li>
+					<li class="fragment">Becomes a mess with upgrades</li>
+				</ul>
+			</section>
+			<section>
+				<h2>Use migrations</h2>
+				<ul>
+					<li class="fragment">Part of Umbraco core</li>
+					<li class="fragment">Public since 7.3.0</li>
+					<li class="fragment">Runs once on each environment</li>					
+				</ul>
+			</section>
+			<section>
+				<h2>Migration</h2>
+				<pre class="small"><code class="csharp" data-trim contenteditable>
+					[Migration("1.0.0", 1, "DUUG")]
+					public class CreateDuugFestTable : MigrationBase
+					{											
+						public override void Up()
+						{
+							this.Create.Table("DuugFestAttendee")
+								.WithColumn("Id").AsInt32().Identity().PrimaryKey("PK_DuugFestAttendee")
+								.WithColumn("Name").AsString(100).NotNullable()
+								.WithColumn("HasRunV5").AsBoolean();
+						}					
+					}
+											</code></pre>
+			</section>
+			<section>
+				<h2>Running migrations</h2>
+				<pre class="small"><code class="csharp" data-trim contenteditable>					
+					SemVersion targetVersion = new SemVersion(1, 0, 0, string.Empty, null); ;
+       
+					var latestMigration = applicationContext.MigrationEntryService.GetAll("DUUG")
+							.OrderByDescending(x => x.Version).FirstOrDefault();
+					
+					if (latestMigration == null || targetVersion == latestMigration.Version)
+					{
+						return;
+					}              
+
+					var migrationsRunner = new MigrationRunner(
+						applicationContext.Services.MigrationEntryService,
+						applicationContext.ProfilingLogger.Logger,
+						latestMigration.Version,
+						targetVersion,
+						"DUUG");
+											</code></pre>
+			</section>
+			<section>
+				<h2>Demo</h2>
+				<ul class="fragment">
+					<li>Creating/altering database tables</li>
+					<li>Creating content</li>
+				</ul>
+			</section>
 			<section class="dark-bg-slide" data-background-image="lib/images/questions.jpg" data-background-transition="convex">
 				<h1>Questions</h1>				
 			</section>
@@ -269,6 +330,11 @@
 					<li><a href="https://our.umbraco.com/apidocs/csharp/api/Umbraco.Web.Routing.PublishedContentRequest.html#Umbraco_Web_Routing_PublishedContentRequest_Prepared" target="_blank" rel="noreferrer">PublishedContentRequest.Prepared event</a></li>
 					<li><a href="https://our.umbraco.com/documentation/Reference/Plugins/" target="_blank" rel="noreferrer">Plugins</a></li>
 				</ul>
+			</section>
+			<section>
+				<h2>Become a patreon</h2>
+				<p>I you are using one of my packages in your client projects, consider becoming a patreon to support ongoing development</p>
+				<p><a href="https://www.patreon.com/dawoe">https://www.patreon.com/dawoe</a></p>
 			</section>
 		</div>
 	</div>
